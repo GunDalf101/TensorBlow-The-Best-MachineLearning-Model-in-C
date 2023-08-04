@@ -4,7 +4,7 @@ float td[] = {
     0, 0, 0,
     0, 1, 1,
     1, 0, 1,
-    1, 1, 0
+    1, 1, 1
 };
 
 int main(){
@@ -17,14 +17,14 @@ int main(){
         MATRIX_AT(train_input, i, 1) = td[i * 3 + 1];
         MATRIX_AT(train_output, i, 0) = td[i * 3 + 2];
     }
-    size_t ark[] = {2, 2, 1};
+    size_t ark[] = {2, 1};
     neuralNet nn = neuralNetInit(ark, ARRAY_LEN(ark));
     neuralNet g = neuralNetInit(ark, ARRAY_LEN(ark));
     neuralNetRandomize(nn, 0, 1);
     printf("cost: %f\n", neuralNetCost(nn, train_input, train_output));
     neuralNetFiniteDifference(nn, g, 0.1, train_input, train_output);
     neuralNetLearn(nn, g, 0.1);
-    while (neuralNetCost(nn, train_input, train_output) > 0.000013){
+    while (neuralNetCost(nn, train_input, train_output) > 0.00005){
         neuralNetFiniteDifference(nn, g, 0.1, train_input, train_output);
         neuralNetLearn(nn, g, 0.1);
         printf("cost: %f\n", neuralNetCost(nn, train_input, train_output));
